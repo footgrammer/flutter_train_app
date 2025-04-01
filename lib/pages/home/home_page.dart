@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_train_app/pages/stationList/station_list_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,7 +41,19 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('선택', style: TextStyle(fontSize: 40)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return StationListPage('departure');
+                              },
+                            ),
+                          );
+                        },
+                        child: Text('선택', style: TextStyle(fontSize: 40)),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -61,7 +74,19 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('선택', style: TextStyle(fontSize: 40)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return StationListPage('arrival');
+                              },
+                            ),
+                          );
+                        },
+                        child: Text('선택', style: TextStyle(fontSize: 40)),
+                      ),
                     ],
                   ),
                 ],
