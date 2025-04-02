@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('기차 예매')),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Theme.of(context).canvasColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -28,14 +28,18 @@ class _HomePageState extends State<HomePage> {
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
               ),
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   stationArea('출발역', departure ?? '선택'),
-                  Container(width: 2, height: 50, color: Colors.grey[400]),
+                  Container(
+                    width: 2,
+                    height: 50,
+                    color: Theme.of(context).dividerColor,
+                  ),
                   stationArea('도착역', arrival ?? '선택'),
                 ],
               ),
@@ -45,18 +49,6 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               height: 40,
               child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.purple),
-                  foregroundColor: WidgetStatePropertyAll(Colors.white),
-                  textStyle: WidgetStatePropertyAll(
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
                 onPressed: () {
                   if (departure == null || arrival == null) {
                     return;

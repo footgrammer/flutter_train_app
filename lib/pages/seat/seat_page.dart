@@ -52,12 +52,6 @@ class _SeatPageState extends State<SeatPage> {
                 width: double.infinity,
                 height: 40,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
                   onPressed: () {
                     if (selectedColNum == null && selectedRowNum == null) {
                       return;
@@ -98,14 +92,7 @@ class _SeatPageState extends State<SeatPage> {
                       },
                     );
                   },
-                  child: Text(
-                    '예매하기',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: Text('예매하기'),
                 ),
               ),
             ],
