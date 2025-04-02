@@ -32,10 +32,9 @@ class _SeatPageState extends State<SeatPage> {
           TravelInfo('천안아산', '전주'),
           SizedBox(height: 20),
           SeatStatus(),
-          SizedBox(height: 20),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(20),
               children: [SeatInfo(), for (int i = 1; i < 21; i++) SingleRow(i)],
             ),
           ),
