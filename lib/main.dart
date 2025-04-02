@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_train_app/theme.dart';
 
 import 'pages/home/home_page.dart';
 
@@ -19,7 +20,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Train App',
-      theme: ThemeData(),
+      themeMode: ThemeMode.dark,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: HomePage(),
     );
   }

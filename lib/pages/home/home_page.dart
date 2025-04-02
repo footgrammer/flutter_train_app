@@ -10,13 +10,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? departure;
+  String? arrival;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('기차 예매')),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Theme.of(context).canvasColor,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -24,72 +27,20 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).cardColor,
               ),
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '출발역',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return StationListPage('departure');
-                              },
-                            ),
-                          );
-                        },
-                        child: Text('선택', style: TextStyle(fontSize: 40)),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
+                  stationArea('출발역', departure ?? '선택'),
+                  Container(
+                    width: 2,
                     height: 50,
-                    child: VerticalDivider(
-                      thickness: 2,
-                      color: Colors.grey[400],
-                    ),
+                    color: Theme.of(context).dividerColor,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '도착역',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return StationListPage('arrival');
-                              },
-                            ),
-                          );
-                        },
-                        child: Text('선택', style: TextStyle(fontSize: 40)),
-                      ),
-                    ],
-                  ),
+                  stationArea('도착역', arrival ?? '선택'),
                 ],
               ),
             ),
@@ -98,34 +49,71 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               height: 40,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
                 onPressed: () {
+                  if (departure == null || arrival == null) {
+                    return;
+                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return SeatPage();
+                        return SeatPage(
+                          departure: departure!,
+                          arrival: arrival!,
+                        );
                       },
                     ),
                   );
                 },
-                child: Text(
-                  '좌석 선택',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                child: Text('좌석 선택'),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Expanded stationArea(String title, String station) {
+    return Expanded(
+      child: Builder(
+        builder: (context) {
+          return GestureDetector(
+            onTap: () async {
+              String? result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return StationListPage(title, departure, arrival);
+                  },
+                ),
+              );
+              if (result != null) {
+                setState(() {
+                  if (title == '출발역') {
+                    departure = result;
+                  } else {
+                    arrival = result;
+                  }
+                });
+              }
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(station, style: TextStyle(fontSize: 40)),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
