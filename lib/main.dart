@@ -19,7 +19,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Train App',
-      theme: ThemeData(),
+      theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle()),
+      ),
       home: HomePage(),
     );
   }

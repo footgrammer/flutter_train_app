@@ -1,20 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_train_app/pages/seat/widgets/seat_info.dart';
-import 'package:flutter_train_app/pages/seat/widgets/seat_status.dart';
-import 'package:flutter_train_app/pages/seat/widgets/single_row.dart';
+import 'package:flutter_train_app/pages/seat/widgets/seat_list_view.dart';
 import 'package:flutter_train_app/pages/seat/widgets/travel_info.dart';
 
 class SeatPage extends StatefulWidget {
-  const SeatPage({super.key});
+  SeatPage({required this.departure, required this.arrival});
+
+  String departure;
+  String arrival;
 
   @override
-  State<StatefulWidget> createState() {
-    return _SeatPageState();
-  }
+  State<SeatPage> createState() => _SeatPageState();
 }
 
 class _SeatPageState extends State<SeatPage> {
+  int? selectedRowNum;
+  int? selectedColNum;
+
+  void onSelectedSeat(int rowNum, int colNum) {
+    setState(() {
+      selectedRowNum = rowNum;
+      selectedColNum = colNum;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,71 +36,81 @@ class _SeatPageState extends State<SeatPage> {
         ),
         title: Text('좌석 선택'),
       ),
-      body: Column(
-        children: [
-          TravelInfo('천안아산', '전주'),
-          SizedBox(height: 20),
-          SeatStatus(),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(20),
-              children: [SeatInfo(), for (int i = 1; i < 21; i++) SingleRow(i)],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 40,
-              left: 30,
-              right: 30,
-              top: 10,
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              TravelInfo(departure: widget.departure, arrival: widget.arrival),
+              SizedBox(height: 20),
+              SeatListView(
+                selectedRowNum: selectedRowNum,
+                selectedColNum: selectedColNum,
+                onSelected: onSelectedSeat,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  showCupertinoDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        title: Text('확인'),
-                        content: Text('예약하시곘습니까?'),
-                        actions: [
-                          CupertinoDialogAction(
-                            child: Text('취소'),
-                            isDefaultAction: true,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+                  onPressed: () {
+                    if (selectedColNum == null && selectedRowNum == null) {
+                      return;
+                    }
+                    //선택되어져 있다면 팝업 출력
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text('예매하시겠습니까?'),
+                          content: Text(
+                            '좌석 : $selectedRowNum - ${['A', 'B', 'C', 'D'][selectedColNum! - 1]}',
                           ),
-                          CupertinoDialogAction(
-                            child: Text('확인'),
-                            isDestructiveAction: true,
-                            onPressed: () {},
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Text(
-                  '예매하기',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                          actions: [
+                            CupertinoDialogAction(
+                              child: Text(
+                                '취소',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: Text(
+                                '확인',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              isDestructiveAction: true,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    '예매하기',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
