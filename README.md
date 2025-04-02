@@ -1,16 +1,44 @@
-# flutter_train_app
+# readme.md
 
-A new Flutter project.
+# 🚝 플러터 기차 예매 서비스 만들기
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 프로젝트 소개
 
-A few resources to get you started if this is your first Flutter project:
+- 본 프로젝트는 플러터 기초 주차에서 있었던 개인 과제 프로젝트입니다.
+- 플러터를 활용해서 출발역, 도착역, 좌석을 선택하는 기능을 구현했습니다.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 프로젝트 기능
+
+- 이번 프로젝트는 크게 3가지의 페이지로 구성이 되어 있습니다.
+
+---
+
+### 1. 홈페이지
+
+- `GestureDetector` 및 `Navigator` 를 활용해서 출발역 및 도착역을 탭했을 때 역 선택 페이지로 이동하는 기능을 구현했습니다.
+- `ElevatedButton` 을 구현해서 탭하면 좌석 선택 페이지로 이동하도록 구현했습니다.
+
+---
+
+### 2. 역 선택 페이지
+
+- `ListView.separated` 를 활용해서 역 이름을 출력했습니다.
+- 역을 선택했을 때 `Navigator` 를 통해서 선택한 역의 데이터를 홈페이지로 보내도록 구현했습니다.
+- 출발역을 선택할 때에는 만약 도착역에서 선택되어진 역은 나타나지 않도록 구현했고 도착역을 선택할 때는 출발역에서 선택된 역은 나타나지 않도록 구현했습니다.
+
+---
+
+### 3. 좌석 선택 페이지
+
+- `StatefulWidget` 을 활용해 `selectedRowNum` , `selectedColNum` 의 상태를 관리해 줬고 좌석을 선택하면 선택한 좌석의 번호에 대한 상태를 관리해서 거기에 따른 화면변화가 가능하게 구현을 했습니다.
+- `ElevatedButton` 을 통해서 예매하기 버튼을 누르면 `CupertinoAlertDialog` 로 확인 메시지가 나와서 취소 혹은 확인 여부를 사용자에게 물어보는 기능을 구현했습니다.
+
+---
+
+### 기타 기능
+
+- 다크 테마 모드를 적용할 수 있도록 구현했습니다.
