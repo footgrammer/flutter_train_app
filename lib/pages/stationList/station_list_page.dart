@@ -20,13 +20,19 @@ class StationListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
+        leading: IconButton(
+          onPressed: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios),
         ),
 
+        // leading: GestureDetector(
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //   },
+        //   child: Icon(Icons.arrow_back_ios),
+        // ),
         title: Text((type == 'departure') ? '출발역' : '도착역'),
       ),
       body: Column(
