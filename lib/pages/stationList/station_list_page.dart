@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StationListPage extends StatelessWidget {
-  StationListPage(this.title);
+  StationListPage(this.title, this.departure, this.arrival);
   String title;
+  String? departure;
+  String? arrival;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,11 @@ class StationListPage extends StatelessWidget {
       ),
       body: ListView.separated(
         itemBuilder: (context, index) {
+          if (title == '출발역' && arrival == stationList[index]) {
+            return Container();
+          } else if (title == '도착역' && departure == stationList[index]) {
+            return Container();
+          }
           return GestureDetector(
             onTap: () {
               Navigator.pop(context, stationList[index]);

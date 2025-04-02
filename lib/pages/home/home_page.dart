@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return StationListPage(title);
+                    return StationListPage(title, departure, arrival);
                   },
                 ),
               );
